@@ -1,0 +1,69 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: gray;
+    display : flex;
+    padding: 10px;
+    height: 400px;
+    width : 400px;
+    border: 5px solid  black;
+    flex-direction: column;
+    margin: auto;   
+}
+
+.screen{
+    width: 100%;
+    height: 100px;
+    margin: auto;
+    box-sizing: border-box;   
+    border: 4px solid black;
+    text-align: right;
+    padding: 10px;
+    font-size: 24px;
+    margin-bottom: 25px;
+    border-radius: 5px;
+   
+}
+
+.button-grid{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.row1, .row2, .row3, .row4, .row5{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;  
+}
+
+button{
+    width: 25%;
+    margin: 2px;
+    height: 50px; 
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    border: 2.5px solid #333;
+}
+
+.operators{
+    background-color: red;
+    color: white;
+}
+
+.interface{
+    background-color:brown;
+    color: white;
+    flex : 1.5;
+}
+
+#equal{
+    flex : 2;
+}
