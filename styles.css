@@ -10,16 +10,14 @@ body{
     display : flex;
     padding: 10px;
     height: 400px;
-    width : 400px;
+    width : 300px;
     border: 5px solid  black;
-    flex-direction: column;
-    margin: auto;   
+    flex-direction: column;   
 }
 
 .screen{
     width: 100%;
     height: 100px;
-    margin: auto;
     box-sizing: border-box;   
     border: 4px solid black;
     text-align: right;
@@ -34,7 +32,6 @@ body{
     display: flex;
     flex-direction: column;
     width: 100%;
-    box-sizing: border-box;
 }
 
 .row1, .row2, .row3, .row4, .row5{
@@ -48,14 +45,17 @@ button{
     margin: 2px;
     height: 50px; 
     border-radius: 5px;
-    font-size: 18px;
-    cursor: pointer;
+    font-size: 15px;
+    font-style: italic;
+    font-family:'Times New Roman', Times, serif;
+    text-align: center;
     border: 2.5px solid #333;
 }
 
 .operators{
     background-color: red;
     color: white;
+    font-size: 25px;
 }
 
 .interface{
@@ -66,4 +66,8 @@ button{
 
 #equal{
     flex : 2;
+}
+
+.nums{
+    font-size: 25px;
 }
