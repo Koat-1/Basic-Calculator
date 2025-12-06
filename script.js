@@ -30,6 +30,10 @@ function isError(result) {
     return typeof result === 'string' && result === "ERR DIV/0";
 }
 
+function isOverflow(result) {
+    return result > 999999999999;
+}
+
 let firstNum = null;
 let operator = null;
 let secondNum = null;
@@ -88,7 +92,7 @@ function handleNumClick(number) {
             displayValue += number;
         }
     }
-
+    
     updateDisplay();
 }
 
@@ -96,6 +100,11 @@ function handleNumClick(number) {
 function handleOpClick(op) {
     const current = parseFloat(displayValue);
 
+    if (op === '=') {
+        handleEqual();
+        return;
+    }
+    
     if (firstNum === null) {
         firstNum = current;
         operator = op;
@@ -114,18 +123,51 @@ function handleOpClick(op) {
             displayValue = "ERR DIV/0";
             resetCalculator();
         }
+        else if (isOverflow(result)) {
+            displayValue = "OVERFLOW";
+            resetCalculator();
+        }
         else {
             displayValue = result.toString();
             firstNum = result;
-            operator = op;
+            operator = op; 
             secondNum = null;
             resetDisplay = true;
         }
 
         updateDisplay();
+    }   
+}
 
+function handleEqual() {
+    if (firstNum === null || operator === null) {
+        return;
     }
     
+    let currentSecondNum;
+
+    if (secondNum !== null) {
+        currentSecondNum = secondNum;
+    }
+    else {
+        currentSecondNum = parseFloat(displayValue);
+        secondNum = currentSecondNum;
+    }
+    const result = operate(operator, firstNum, currentSecondNum);
+    if (isError(result)) {
+        displayValue = "ERR DIV/0";
+        resetCalculator();
+    }
+    else if (isOverflow(result)) {
+        displayValue = "OVERFLOW";
+        resetCalculator();
+    }
+    else {
+        displayValue = result.toString();
+        firstNum = result;
+        resetDisplay = true;
+    }
+    updateDisplay();
 }
 
 function backspace() {
@@ -141,9 +183,11 @@ numButtons.forEach(button => {
 });
 
 operatorButton.forEach(button => {
-    button.addEventListener('click', () => {
-        handleOpClick(button.textContent);
-    })
+    if (button.textContent !== '=') { 
+        button.addEventListener('click', () => {
+            handleOpClick(button.textContent);
+        });
+    }
 });
 
 clearButton.addEventListener('click', () => {
@@ -152,11 +196,22 @@ clearButton.addEventListener('click', () => {
     updateDisplay();
 })
 
-backspaceButton.addEventListener('click',() => backspace());
+backspaceButton.addEventListener('click', () => backspace());
+
+equalsButton.addEventListener('click', handleEqual);
 
 
-document.addEventListener('keyup', (event) => {
+
+document.addEventListener('keydown', (event) => {
+    if (event.repeat) return;
     const key = event.key;
+
+    const calculatorKeys = ['0','1','2','3','4','5','6','7','8','9','.',',','+','-','*','/','Enter','=','Escape','Backspace','c','C'];
+    
+    if (!calculatorKeys.includes(key)) {
+        event.preventDefault(); 
+        return;
+    }
 
     switch (key) {
         case '0':
@@ -176,10 +231,11 @@ document.addEventListener('keyup', (event) => {
         case '*': handleOpClick('*'); break;
         case '/': handleOpClick('/'); break;
         case 'Backspace': backspace(); break;
-        case 'Escape': resetCalculator(); break;
-        default: return; 
-
+        case 'c':
+        case 'C':
+        case 'Escape': resetCalculator(); displayValue = "0"; updateDisplay(); break;
+        case 'Enter':
+        case '=': handleEqual(); break;
     }
 
-  
 })
