@@ -34,12 +34,13 @@ let firstNum = null;
 let operator = null;
 let secondNum = null;
 let displayValue = "0";
-let next = false;
+let resetDisplay = false;
 
 const screen = document.querySelector('.screen');
 const numButtons = document.querySelectorAll('.nums');
 const operatorButton = document.querySelectorAll('.operators');
 const clearButton = document.querySelector('#clear');
+const backspaceButton = document.querySelector('#backspace');
 
 screen.value = displayValue;
 
@@ -51,7 +52,7 @@ function resetCalculator() {
     firstNum = null;
     operator = null;
     secondNum = null;
-    next = false;
+    resetDisplay = false;
 }
 
 
@@ -68,8 +69,6 @@ function handleNumClick(number) {
         return;
     }
 
-  
-
     if (number === ",") {
         if (displayValue.includes('.')) return;
         if (displayValue === "" || displayValue === "0") {
@@ -80,9 +79,9 @@ function handleNumClick(number) {
         }
     }
     else {
-        if (next || displayValue === "0") {
+        if (resetDisplay || displayValue === "0") {
             displayValue = number;
-            next = false;
+            resetDisplay = false;
         }
         else {
             displayValue += number;
@@ -99,10 +98,10 @@ function handleOpClick(op) {
     if (firstNum === null) {
         firstNum = current;
         operator = op;
-        next = true;
+        resetDisplay = true;
     }
 
-    else if (next) {
+    else if (resetDisplay) {
         operator = op;
     }
 
@@ -119,7 +118,7 @@ function handleOpClick(op) {
             firstNum = result;
             operator = op;
             secondNum = null;
-            next = true;
+            resetDisplay = true;
         }
 
         updateDisplay();
@@ -148,5 +147,8 @@ clearButton.addEventListener('click', () => {
     updateDisplay();
 })
 
-
+backspaceButton.addEventListener('click', () => {
+    displayValue = displayValue.slice(0, -1);
+    updateDisplay();
+})
 
