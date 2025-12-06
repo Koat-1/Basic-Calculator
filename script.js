@@ -140,4 +140,13 @@ operatorButton.forEach(button => {
     })
 });
 
+clearButton.addEventListener('click', () => {
+    firstNum = null;
+    operator = null;
+    secondNum = null;
+    displayValue = "0";
+    next = false;
+    updateDisplay();
+})
+
 
