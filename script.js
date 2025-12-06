@@ -41,6 +41,7 @@ const numButtons = document.querySelectorAll('.nums');
 const operatorButton = document.querySelectorAll('.operators');
 const clearButton = document.querySelector('#clear');
 const backspaceButton = document.querySelector('#backspace');
+const equalsButton = document.querySelector('#equal');
 
 screen.value = displayValue;
 
@@ -127,17 +128,21 @@ function handleOpClick(op) {
     
 }
 
+function backspace() {
+    displayValue = displayValue.slice(0, -1);
+    updateDisplay();
+}
+
+
 numButtons.forEach(button => {
     button.addEventListener('click', () => {
-        const number = button.textContent;
-        handleNumClick(number);
+        handleNumClick(button.textContent);
     });
 });
 
 operatorButton.forEach(button => {
     button.addEventListener('click', () => {
-        const op = button.textContent;
-        handleOpClick(op);
+        handleOpClick(button.textContent);
     })
 });
 
@@ -147,8 +152,34 @@ clearButton.addEventListener('click', () => {
     updateDisplay();
 })
 
-backspaceButton.addEventListener('click', () => {
-    displayValue = displayValue.slice(0, -1);
-    updateDisplay();
-})
+backspaceButton.addEventListener('click',() => backspace());
 
+
+document.addEventListener('keyup', (event) => {
+    const key = event.key;
+
+    switch (key) {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9': handleNumClick(key); break;
+        case '.':
+        case ',': handleNumClick(','); break;
+        case '+': handleOpClick('+'); break;
+        case '-': handleOpClick('-'); break;
+        case '*': handleOpClick('*'); break;
+        case '/': handleOpClick('/'); break;
+        case 'Backspace': backspace(); break;
+        case 'Escape': resetCalculator(); break;
+        default: return; 
+
+    }
+
+  
+})
