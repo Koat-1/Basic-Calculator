@@ -47,14 +47,19 @@ function updateDisplay() {
     screen.value = displayValue;
 }
 
+function resetCalculator() {
+    firstNum = null;
+    operator = null;
+    secondNum = null;
+    next = false;
+}
+
+
 function handleNumClick(number) {
     
     if (displayValue === "OVERFLOW" || displayValue === "ERR DIV/0") {
-        firstNum = null;
-        secondNum = null;
+        resetCalculator();
         displayValue = "0";
-        operator = null;
-        next = false;
     }
     
     if (displayValue.replace('.', '').length > 12) {
@@ -107,10 +112,7 @@ function handleOpClick(op) {
 
         if (isError(result)) {
             displayValue = "ERR DIV/0";
-            firstNum = null;
-            operator = null;
-            secondNum = null;
-            next = false;
+            resetCalculator();
         }
         else {
             displayValue = result.toString();
@@ -141,12 +143,10 @@ operatorButton.forEach(button => {
 });
 
 clearButton.addEventListener('click', () => {
-    firstNum = null;
-    operator = null;
-    secondNum = null;
+    resetCalculator();
     displayValue = "0";
-    next = false;
     updateDisplay();
 })
+
 
 
